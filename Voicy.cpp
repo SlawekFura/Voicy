@@ -23,7 +23,7 @@ static FILE *rawfd;
 int main()
 {
     festival_initialize(LOAD_INIT_FILES, HEAP_SIZE);
-    festival_say_text(("HELLO WORLD!"));
+    festival_say_text("rozparcelowany");
     err_set_logfp(NULL);
 
 /*  config = cmd_ln_init(NULL, ps_args(), TRUE,

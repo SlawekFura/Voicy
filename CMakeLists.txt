@@ -25,7 +25,6 @@ INCLUDE_DIRECTORIES(include ${CMAKE_SOURCE_DIR}
                             ${Festival_INCLUDE_DIR})
 
 message("DUPA-1")
-#link_directories("../pocketsphinx/include")
 include_directories("../pocketsphinx/include")
 include_directories("../sphinxbase/include")
 
@@ -36,17 +35,14 @@ find_library(SPHINXBASE_LIBRARY NAMES sphinxbase HINTS "$SPHINXBASE_INCLUDE_DIRS
 MESSAGE( STATUS "POCKETSPHINX_LIBRARY: " ${POCKETSPHINX_LIBRARY} )
 
 
-include_directories (${PROJECT_SOURCE_DIR}, FSMs/Include)
-message("DUPA1")
-message("DUPA2")
-
+include_directories (${PROJECT_SOURCE_DIR}, FSMs/Include, Resources/)
+message("${PROJECT_SOURCE_DIR}/FSMs/Include")
 
 file(GLOB SOURCES "FSMs/Source/*.cpp")
-message("DUPA3")
 
 project (Voicy)
-message("DUPA4")
 add_executable(Voicy Voicy.cpp RecFromMic.cpp ${SOURCES})
+target_include_directories(Voicy PRIVATE FSMs/Include)
 message("DUPA5")
 
 set(LIBNCURSES_LIBRARY "/usr/lib/x86_64-linux-gnu/ao/plugins-4/libesd.so")

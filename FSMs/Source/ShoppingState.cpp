@@ -50,19 +50,27 @@ void ShoppingState::handleInput(std::string p_command)
 		}
 		clearShoppingFileIndicators(m_shoppingList);
 	}
-	else if (p_command == "WYCZYSC")
-	{
-		reopenCleanFileInOut();
-		m_shoppingSet.clear();
-	}
+	//else if (p_command == "WYCZYSC")
+	//{
+	//	reopenCleanFileInOut();
+	//	m_shoppingSet.clear();
+	//}
 	else if (p_command == "NITZ")
 	{
 		s_stateMachine->changeState(new BaseState);
 	}
-	else if (isCommandInAvailableShoppingList(p_command))
+    else if (p_command == "USUN")
 	{
-		m_operation(m_shoppingSet, p_command);
+		s_stateMachine->changeState(new BaseState);
 	}
+    else if (p_command == "ZAPISZ")
+	{
+		s_stateMachine->changeState(new BaseState);
+	}
+	//else if (isCommandInAvailableShoppingList(p_command))
+	//{
+	//	m_operation(m_shoppingSet, p_command);
+	//}
 	else
 	{
 		std::cout << "ShoppingState.cpp default handleInput" << std::endl;

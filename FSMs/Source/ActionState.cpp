@@ -1,10 +1,10 @@
 #include "ActionState.h"
 #include "BaseState.h"
 #include "StateMachine.h"
-#include "SaveState.h"
-#include "EraseState.h"
+//#include "SaveState.h"
+//#include "EraseState.h"
+#include "ShoppingState.h"
 #include <iostream>
-#include "festival/festival.h"
 
 extern StateMachine* s_stateMachine;
 
@@ -15,17 +15,21 @@ ActionState::ActionState()
 
 void ActionState::handleInput(std::string p_command)
 {
-	if (p_command == "ZAPISZ")
-	{
-		s_stateMachine->changeState(new SaveState);
-	}
+    if (p_command == "ZAKUPY")
+    {
+        s_stateMachine->changeState(new ShoppingState)
+    }
+	//if (p_command == "ZAPISZ")
+	//{
+	//	s_stateMachine->changeState(new SaveState);
+	//}
 	else if (p_command == "POWIEDZ")
 	{
 	}
-	else if (p_command == "USUN")
-	{
-		s_stateMachine->changeState(new EraseState);
-	}
+	//else if (p_command == "USUN")
+	//{
+	//	s_stateMachine->changeState(new EraseState);
+	//}
 	else if (p_command == "NIC")
 	{
 		s_stateMachine->changeState(new BaseState);
