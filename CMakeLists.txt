@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (Voicy)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 
 find_package(PkgConfig)
 pkg_check_modules(POCKETSPHINX REQUIRED pocketsphinx)
@@ -35,14 +35,14 @@ find_library(SPHINXBASE_LIBRARY NAMES sphinxbase HINTS "$SPHINXBASE_INCLUDE_DIRS
 MESSAGE( STATUS "POCKETSPHINX_LIBRARY: " ${POCKETSPHINX_LIBRARY} )
 
 
-include_directories (${PROJECT_SOURCE_DIR}, FSMs/Include, Resources/)
+include_directories (${PROJECT_SOURCE_DIR}, FSMs/Include, Resources/Include)
 message("${PROJECT_SOURCE_DIR}/FSMs/Include")
 
-file(GLOB SOURCES "FSMs/Source/*.cpp")
+file(GLOB SOURCES "FSMs/Source/*.cpp" "Resources/Source/*.cpp")
 
 project (Voicy)
 add_executable(Voicy Voicy.cpp RecFromMic.cpp ${SOURCES})
-target_include_directories(Voicy PRIVATE FSMs/Include)
+target_include_directories(Voicy PRIVATE FSMs/Include Resources/Include)
 message("DUPA5")
 
 set(LIBNCURSES_LIBRARY "/usr/lib/x86_64-linux-gnu/ao/plugins-4/libesd.so")

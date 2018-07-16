@@ -3,110 +3,56 @@
 #include <map>
 #include <set>
 
-static std::set<std::string> s_commands =
-{
-	"KRYSHA",
-	"VICKONAI",
-	"ZAPISH",
-	"POVIETZ",
-	"OOSOUN",
-	"NITZ",
-	"GOTOVA",
-	"ZAKOOPEI",
-	"POKASH",
-	"VITCISHTCH",
-	"KNOTAUTHKA",
-	"VROOTCH",
-	"MAJIK",
-	"SUAVJIK",
-	"MLEKO",
-	"MASUO",
-	"HLEB",
-	"VIEHPSHOVINA",
-	"VOUOVINA",
-	"DROUB",
-	"YAYA",
-	"SER",
+static std::set<std::string> s_commands  = {
 	"BOUKI",
-	"VODA",
-	"WAUCOTCHIA",
+	"DROUB",
+	"GOTOVA",
+	"HLEB",
+	"KNOTAUTHKA",
+	"KRYSHA",
+	"MAJIK",
+	"MASUO",
+	"MLEKO",
+	"NIEUH",
+	"NITZ",
+	"OOSOUN",
 	"OVOTCHEI",
-	"PSHIPRAVA"
+	"POKASH",
+	"POVIETZ",
+	"PSHIPRAVA",
+	"TACK",
+	"RESET",
+	"SER",
+	"SUAVJIK",
+	"VICKONAI",
+	"VIEHPSHOVINA",
+	"VITCISHTCH",
+	"VODA",
+	"VOUOVINA",
+	"VROOTCH",
+	"WAUCOTCHIA",
+	"YAYA",
+	"ZAKOOPEI",
+	"ZAPISH",
 };
 
-static std::set<std::string> s_availableShoppingList =
-{
-	"MLEKO",
-	"MASLO",
+static std::set<std::string> s_availableShoppingList = {
+	"BULKI",
 	"CHLEB",
-	"WIERZOWINA",
-	"WOLOWINA",
 	"DROB",
 	"JAJA",
-	"SER",
-	"BULKI",
-	"WODA",
 	"LAKOCIE",
+	"MASLO",
+	"MLEKO",
 	"OWOCE",
 	"PRZYPRAWA"
+	"SER",
+	"WIERZOWINA",
+	"WODA",
+	"WOLOWINA",
 };
 
-enum COMMAND
-{
-	KRYSIA = 1,
-	WYKONAJ,
-	ZAPISZ,
-	POWIEDZ,
-	USUN,
-	NIC,
-	GOTOWE,
-	ZAKUPY,
-	POKAZ,
-	WYCZYSC,
-	NOTATKA,
-	WROC,
-	MADZIK,
-	SLAWDZIK,
-};
-
-static std::map<std::string, COMMAND> s_stringToEnumConverter
-{
-	{ "KRYSHA",		KRYSIA	},
-	{ "VICKONAI",	WYKONAJ	},
-	{ "ZAPISH",		ZAPISZ	},
-	{ "POVIETZ",	POWIEDZ	},
-	{ "OOSOUN",		USUN	},
-	{ "NITZ",		NIC		},
-	{ "GOTOVA",		GOTOWE	},
-	{ "ZAKOOPEI",	ZAKUPY	},
-	{ "POKASH",		POKAZ	},
-	{ "VITCISHTCH",	WYCZYSC	},
-	{ "KNOTAUTHKA",	NOTATKA	},
-	{ "VROOTCH",	WROC	},
-	{ "MAJIK",		MADZIK	},
-	{ "SUAVJIK",	SLAWDZIK}
-};
-
-static std::map<COMMAND, std::string> s_enumToStringConverter
-{
-	{ KRYSIA,	"KRYSHA"	},
-	{ WYKONAJ,	"VICKONAI"	},
-	{ ZAPISZ,	"ZAPISH"	},
-	{ POWIEDZ,	"POVIETZ"	},
-	{ USUN,		"OOSOUN"	},
-	{ NIC,		"NITZ"		},
-	{ GOTOWE,	"GOTOVA"	},
-	{ ZAKUPY,	"ZAKOOPEI"	},
-	{ POKAZ,	"POKASH"	},
-	{ WYCZYSC,	"VITCISHTCH"},
-	{ NOTATKA,	"KNOTAUTHKA"},
-	{ WROC,		"VROOTCH"	},
-	{ MADZIK,	"MAJIK"		},
-	{ SLAWDZIK,	"SUAVJIK"	}
-};
-
-static std::map<std::string, std::string> s_stringPhonemsToStringConverter
-{
+static std::map<std::string, std::string> s_stringPhonemsToStringConverter {
 	{ "BOUKI",			"BULKI" 	},
 	{ "DROUB",			"DROB"		},
 	{ "GOTOVA",			"GOTOWE" 	},
@@ -116,14 +62,17 @@ static std::map<std::string, std::string> s_stringPhonemsToStringConverter
 	{ "MAJIK",			"MADZIK"	},
 	{ "MASUO",			"MASLO"		},
 	{ "MLEKO",			"MLEKO" 	},
+	{ "NIEUH",	"NIE"		},
 	{ "NITZ",			"NIC" 		},
-	{ "OOSOUN",			"USUN"		},
+	{ "OOSOUN",         "USUN"		},
 	{ "OVOTZE",			"OWOCE"		},
 	{ "POKASH",			"POKAZ" 	},
 	{ "POVIETZ",		"POWIEDZ" 	},
 	{ "PSHIPRAVA",		"PRZYPRAWA" },
+	{ "RESET",	        "RESET"		},
 	{ "SER",			"SER"		},
 	{ "SUAVJIK",		"SLAWDZIK" 	},
+	{ "TACK",	"TAK"		},
 	{ "VICKONAI",		"WYKONAJ" 	},
 	{ "VIEHPSHOVINA",	"WIERZOWINA"},
 	{ "VITCISHTCH",		"WYCZYSC"	},
@@ -133,8 +82,5 @@ static std::map<std::string, std::string> s_stringPhonemsToStringConverter
 	{ "WAUCOTCHIA",		"LAKOCIE" 	},
 	{ "YAYA",			"JAJA" 		},
 	{ "ZAKOOPEI",		"ZAKUPY" 	},
-	{ "ZAPISH",			"ZAPISZ"	}
-
-
-
+	{ "ZAPISH",			"ZAPISZ"	} 
 };

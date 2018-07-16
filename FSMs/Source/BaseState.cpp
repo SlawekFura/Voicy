@@ -2,6 +2,7 @@
 #include "BaseState.h"
 #include "StateMachine.h"
 #include "ActionState.h"
+#include "Festival.h"
 
 extern StateMachine* s_stateMachine;
 
@@ -14,9 +15,10 @@ void BaseState::handleInput(std::string p_command)
 {
 	if (p_command == "KRYSIA")
 	{
-		s_stateMachine->changeState(new ActionState);
+        Festival::instance()->sayText("Słucham?");
+        s_stateMachine->changeState(new ActionState);
 	}
-	else if (p_command == "NIC")
+	else if (p_command == "RESET")
 	{
 		s_stateMachine->changeState(new BaseState);
 	}

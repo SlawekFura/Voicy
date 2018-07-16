@@ -2,7 +2,6 @@
 #include <string.h>
 #include <assert.h>
 #include <festival/festival.h>
-#include <EST_String.h>
 
 #include "RecFromMic.h"
 
@@ -23,7 +22,6 @@ static FILE *rawfd;
 int main()
 {
     festival_initialize(LOAD_INIT_FILES, HEAP_SIZE);
-    festival_say_text("rozparcelowany");
     err_set_logfp(NULL);
 
 /*  config = cmd_ln_init(NULL, ps_args(), TRUE,

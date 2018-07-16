@@ -1,5 +1,6 @@
 #pragma once
 #include <StringToEnumConverter.h>
+#include <sphinxbase/ad.h>
 
 class IState;
 
@@ -12,5 +13,6 @@ public:
 	void handleInput(std::string);
 	void changeState(IState*);
 	std::string getState();
+    void sayText(std::string);
 };
 

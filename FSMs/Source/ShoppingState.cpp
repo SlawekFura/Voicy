@@ -2,7 +2,10 @@
 #include "StateMachine.h"
 #include "SaveState.h"
 #include "BaseState.h"
+#include "EraseState.h"
 #include <stdio.h>
+#include "ShoppingList.h"
+#include "Festival.h"
 
 extern StateMachine* s_stateMachine;
 
@@ -12,27 +15,38 @@ static void clearShoppingFileIndicators(std::fstream& m_file)
 	m_file.seekg(0, std::ios_base::beg);
 }
 
-ShoppingState::ShoppingState(Operation p_operation)
-	: m_operation(p_operation)
+ShoppingState::ShoppingState(const std::shared_ptr<ShoppingList>& p_shoppingListPtr) : m_shoppingListPtr(p_shoppingListPtr), m_doubtedActivity([](){}) 
 {
-	std::cout << "ShoppingState" << std::endl;
-	m_shoppingList.open("../Voicy/Resources/ShoppingList.txt");
+    m_shoppingList.open(FILEPATH);
 	if (!m_shoppingList.is_open())
 	{
-		std::cout << "Could not open ../Voicy/Resources/ShoppingList.txt" << std::endl;
+		std::cout << "Could not open "<< FILEPATH << std::endl;
 		s_stateMachine->changeState(new BaseState);
 		return;
 	}
 	std::cout << "Successfully opened ShoppingList.txt" << std::endl;
-	std::string l_line;
-	fillShoppingSet();
 }
+
+ShoppingState::ShoppingState() : m_shoppingListPtr(std::make_shared<ShoppingList>())
+{
+    m_shoppingList.open(FILEPATH);
+	if (!m_shoppingList.is_open())
+	{
+		std::cout << "Could not open "<< FILEPATH << std::endl;
+		s_stateMachine->changeState(new BaseState);
+		return;
+	}
+	std::cout << "Successfully opened ShoppingList.txt" << std::endl;
+	fillShoppingSet();
+
+}
+
 
 void ShoppingState::handleInput(std::string p_command)
 {
 	if (p_command == "WROC")
 	{
-		s_stateMachine->changeState(new SaveState);
+		s_stateMachine->changeState(new ActionState());
 	}
 	else if (p_command == "POKAZ")
 	{
@@ -44,33 +58,43 @@ void ShoppingState::handleInput(std::string p_command)
 		}
 		
 		std::cout << "List of set items:" << std::endl;
-		for (auto line : m_shoppingSet)
-		{
-			std::cout << "\t" << line << std::endl;
-		}
+        m_shoppingListPtr->show();
 		clearShoppingFileIndicators(m_shoppingList);
 	}
-	//else if (p_command == "WYCZYSC")
-	//{
-	//	reopenCleanFileInOut();
-	//	m_shoppingSet.clear();
-	//}
-	else if (p_command == "NITZ")
+	else if (p_command == "WYCZYSC")
+	{
+        Festival::instance()->sayText("Napewno?");
+        m_doubtedActivity = [this]()
+        {
+            reopenCleanFileInOut();
+		    m_shoppingListPtr->clear();
+        };
+	}
+	else if (p_command == "NIC")
 	{
 		s_stateMachine->changeState(new BaseState);
 	}
     else if (p_command == "USUN")
 	{
-		s_stateMachine->changeState(new BaseState);
+        std::cout << __FUNCTION__ << " use_count = " << m_shoppingListPtr.use_count() << std::endl;
+		s_stateMachine->changeState(new EraseState<ShoppingList>(m_shoppingListPtr));
 	}
     else if (p_command == "ZAPISZ")
 	{
-		s_stateMachine->changeState(new BaseState);
+        std::cout << __FUNCTION__ << " use_count = " << m_shoppingListPtr.use_count() << std::endl;
+		s_stateMachine->changeState(new SaveState<ShoppingList>(m_shoppingListPtr));
 	}
-	//else if (isCommandInAvailableShoppingList(p_command))
-	//{
-	//	m_operation(m_shoppingSet, p_command);
-	//}
+    else if (p_command == "TAK")
+    {   
+        std::cout << __FUNCTION__ << " przed zawolaniem " << std::endl;
+        m_doubtedActivity();
+        std::cout << __FUNCTION__ << " po zawolaniu " << std::endl;
+        m_doubtedActivity = [](){};
+    }
+    else if (p_command == "NIE")
+    {
+        m_doubtedActivity = [](){};
+    }
 	else
 	{
 		std::cout << "ShoppingState.cpp default handleInput" << std::endl;
@@ -88,26 +112,22 @@ ShoppingState::~ShoppingState()
 void ShoppingState::fillShoppingSet()
 {
 	std::string l_line;
+
+    //m_shoppingListPtr = std::make_shared<ShoppingList>();
 	while (getline(m_shoppingList, l_line))
 	{
-		m_shoppingSet.emplace(l_line);
+		m_shoppingListPtr->add(l_line);
 	}
 	clearShoppingFileIndicators(m_shoppingList);
 }
 
 void ShoppingState::writeShoppingSetIntoFile()
 {
-	for (auto line : m_shoppingSet)
+	for (auto line : m_shoppingListPtr->getResource())
 	{
 		std::cout << "Line to write to file:" << line << std::endl;
 		m_shoppingList << line << std::endl;
 	}
-}
-
-bool ShoppingState::isCommandInAvailableShoppingList(std::string p_command)
-{
-	std::cout << "is in s_availableShoppingList:" << int(s_availableShoppingList.find(p_command) != s_availableShoppingList.end()) << std::endl;
-	return s_availableShoppingList.find(p_command) != s_availableShoppingList.end();
 }
 
 void ShoppingState::reopenCleanFileInOut()

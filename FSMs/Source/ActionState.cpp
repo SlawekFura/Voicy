@@ -17,7 +17,7 @@ void ActionState::handleInput(std::string p_command)
 {
     if (p_command == "ZAKUPY")
     {
-        s_stateMachine->changeState(new ShoppingState)
+        s_stateMachine->changeState(new ShoppingState());
     }
 	//if (p_command == "ZAPISZ")
 	//{
@@ -30,7 +30,7 @@ void ActionState::handleInput(std::string p_command)
 	//{
 	//	s_stateMachine->changeState(new EraseState);
 	//}
-	else if (p_command == "NIC")
+	else if (p_command == "RESET")
 	{
 		s_stateMachine->changeState(new BaseState);
 	}

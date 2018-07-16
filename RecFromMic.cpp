@@ -3,11 +3,13 @@
 #include "StringToEnumConverter.h"
 #include <iostream>
 #include <cctype>
+#include "Festival.h"
 
 extern cmd_ln_t *config;
 extern ps_decoder_t *ps;
 
 StateMachine* s_stateMachine = new StateMachine();
+Festival* Festival::s_instance = 0;
 
 /* Sleep for specified msec */
 static void sleep_msec(int32 ms)
@@ -35,7 +37,6 @@ static void sleep_msec(int32 ms)
 */
 void recognize_from_microphone(cmd_ln_t *p_config, ps_decoder_t *p_ps)
 {
-    std::cout<<"DUPA1"<<std::endl;
 	ad_rec_t *ad;
 	int16 adbuf[2048];
 	uint8 utt_started, in_speech;
@@ -43,6 +44,7 @@ void recognize_from_microphone(cmd_ln_t *p_config, ps_decoder_t *p_ps)
 	char const *hyp;
 
 	prepareRecognizeFromMicrophone(p_config, p_ps, ad, utt_started);
+    Festival::instance(ad);
 
     std::cout<<"DUPA1"<<std::endl;
 	while (1) 
@@ -74,6 +76,7 @@ void recognize_from_microphone(cmd_ln_t *p_config, ps_decoder_t *p_ps)
 					}
 				}
 				
+			    //std::cout<<"########## recognised command: "<< s_stringPhonemsToStringConverter[l_foundString] << " ###############"<<std::endl;
 				s_stateMachine->handleInput(s_stringPhonemsToStringConverter[l_foundString]);
 				fflush(stdout);
 			}

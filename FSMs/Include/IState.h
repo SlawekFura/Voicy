@@ -11,5 +11,5 @@ public:
 	using Perform = std::function< void(int) >;
 	virtual void handleInput(std::string) = 0;
 	virtual std::string getState() = 0;
-	virtual ~IState() = default;
+	virtual ~IState(){};
 };
